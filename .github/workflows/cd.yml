@@ -48,5 +48,5 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: ${{ env.TARGET_PLATFORMS }}
-          build-args:
-            - "PG_MAJOR=${{ matrix.pg_major_version }}"
+          build-args: |
+            PG_MAJOR=${{ matrix.pg_major_version }}
