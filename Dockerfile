@@ -28,7 +28,7 @@ COPY --from=pgvectors /pgvecto-rs-binary-release.deb /tmp/vectors.deb
 RUN apt-get install -y /tmp/vectors.deb && rm -f /tmp/vectors.deb
 
 # install vectorchor
-ARG VCHORD_VERSION=0.4.3
+ARG VCHORD_VERSION=0.3.0
 COPY --from=vchord /workspace/postgresql-${PG_MAJOR}-vchord_${VCHORD_VERSION}-1_amd64.deb /tmp/vchord.deb
 RUN apt-get install -y /tmp/vchord.deb && rm -f /tmp/vchord.deb
 
