@@ -7,7 +7,7 @@ on:
 env:
   REGISTRY: ${{ vars.REGISTRY || 'ghcr.io' }}
   IMAGE_NAME: ${{ github.repository }}
-  TARGET_PLATFORMS: linux/amd64,linux/arm64
+  TARGET_PLATFORMS: linux/amd64
 
 jobs:
   push_to_registry:
