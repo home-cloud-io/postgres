@@ -14,7 +14,8 @@ jobs:
     name: Build & Push Image
     strategy:
       matrix:
-        pg_major_version: [15, 16, 17]
+        # TODO: support 17 once we can deprecate pgvecto.rs
+        pg_major_version: [15, 16]
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
