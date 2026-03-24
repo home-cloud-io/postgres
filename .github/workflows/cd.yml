@@ -1,21 +1,25 @@
 name: Publish Docker images
 
 on:
-  release:
-    types: [published]
+  # push:
+  #   branches:
+  #     - 'main'
+  workflow_dispatch:
 
 env:
   REGISTRY: ${{ vars.REGISTRY || 'ghcr.io' }}
   IMAGE_NAME: ${{ github.repository }}
-  TARGET_PLATFORMS: linux/amd64
+  TARGET_PLATFORMS: linux/amd64,linux/arm64
 
 jobs:
   push_to_registry:
     name: Build & Push Image
     strategy:
       matrix:
-        # TODO: support 17 once we can deprecate pgvecto.rs
-        pg_major_version: [15, 16]
+        pg_major: [15, 16, 17]
+        postgis_major: [3]
+        pgvector_version: ['0.8.1']
+        vchord_version: ['0.5.3']
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
@@ -32,7 +36,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.pg_major_version }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            pg${{ matrix.pg_major }}-postgis${{ matrix.postgis_major }}-pgvector${{ matrix.pgvector_version }}-vchord${{ matrix.vchord_version }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -50,4 +56,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           platforms: ${{ env.TARGET_PLATFORMS }}
           build-args: |
-            PG_MAJOR=${{ matrix.pg_major_version }}
+            PG_MAJOR=${{ matrix.pg_major }}
+            POSTGIS_MAJOR=${{ matrix.postgis_major }}
+            PGVECTOR_VERSION=${{ matrix.pgvector_version }}
+            VCHORD_VERSION=${{ matrix.vchord_version }}
