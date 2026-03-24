@@ -15,10 +15,7 @@ RUN apt-get update && \
     #   fix: https://github.com/postgis/docker-postgis/issues/307
     ca-certificates \
     postgresql-$PG_MAJOR-postgis-$POSTGIS_MAJOR \
-    postgresql-$PG_MAJOR-postgis-$POSTGIS_MAJOR-scripts && \
-    apt-get autoremove -y && \
-    apt-get clean -y && \
-    rm -rf /var/lib/apt/lists/*
+    postgresql-$PG_MAJOR-postgis-$POSTGIS_MAJOR-scripts
 
 # install vectorchord
 ARG TARGETARCH
